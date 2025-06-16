@@ -19,20 +19,31 @@ pnpm install
 ## 使用方法
 
 ```bash
-# 基本的な使用方法
+# 基本的な使用方法（テーブル形式）
 pnpm start <銘柄コード>
 
 # 例：トヨタ自動車（7203）
 pnpm start 7203
+
+# JSONL形式で出力
+pnpm start 7203 --jsonl
 
 # 例：ソフトバンクグループ（9984）
 pnpm start 9984
 
 # または直接tsxで実行
 npx tsx src/index.ts 7203
+npx tsx src/index.ts 7203 --jsonl
 ```
 
+### 出力形式
+
+- **テーブル形式（デフォルト）**: 見やすい表形式で出力
+- **JSONL形式（`--jsonl`）**: 各行がJSONオブジェクトのJSONL形式で出力
+
 ## 出力例
+
+### テーブル形式
 
 ```
 === 7203.T - Today's 1-minute data (trading hours only) ===
@@ -45,6 +56,24 @@ Time		Open	High	Low	Close	Volume
 
 Total 326 records found (64 break-time records filtered out).
 ```
+
+### JSONL形式
+
+```jsonl
+{"symbol":"7203.T","timestamp":"2025-06-16T00:00:00.000Z","date":"2025-06-16","time":"09:00","open":2580.5,"high":2581.5,"low":2570,"close":2572.5,"volume":0}
+{"symbol":"7203.T","timestamp":"2025-06-16T00:01:00.000Z","date":"2025-06-16","time":"09:01","open":2573,"high":2577,"low":2569,"close":2570.5,"volume":243200}
+{"symbol":"7203.T","timestamp":"2025-06-16T00:02:00.000Z","date":"2025-06-16","time":"09:02","open":2570.5,"high":2577.5,"low":2570.5,"close":2575,"volume":224700}
+...
+```
+
+#### JSONLフィールド説明
+
+- `symbol`: 銘柄コード（Yahoo Finance形式）
+- `timestamp`: ISO 8601形式のタイムスタンプ（UTC）
+- `date`: 日付（YYYY-MM-DD）
+- `time`: 時刻（日本時間、HH:MM）
+- `open`, `high`, `low`, `close`: 株価（円）
+- `volume`: 出来高
 
 ## 対応銘柄
 
